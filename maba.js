@@ -1,15 +1,19 @@
-const express = require('express')
-const routerMaba = express.Router()
+const express = require('express');
+const routerMba = express.Router();
+const connection = require('..//db/db');
+const ctrMba = require('..//controllers/maba');
 
-const controllerMaba = require('../controler/maba')
+routerMba.get('/mabastikom',ctrMba.getMba)
 
-routerMaba.route('/maba')
-    .post(controllerMaba.insert)
-    .get(controllerMaba.getMaba)
+routerMba.get('/mabastikom/:nim',ctrMba.getMbaByNim)
 
-routerMaba.route('/maba/:nim')
-    .get(controllerMaba.getMabaByNim)
-    .put(controllerMaba.update)
-    .delete(controllerMaba.delete)
-    
-module.exports=routerMaba
+// post maba
+routerMba.post('/mabastikom', ctrMba.create)
+
+// update maba
+routerMba.put('/mabastikom/:nim',ctrMba.update)
+
+// delete maba menggunakan nim
+routerMba.delete('/mabastikom/:nim',ctrMba.delete)
+
+module.exports = routerMba;

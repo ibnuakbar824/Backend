@@ -2,62 +2,64 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
-app.get('/mahasiswa/:nim', (req, res) => {
-    const nim = req.params.nim;
 
-    res.send(`mahasiswa dengan nim: ${nim} ditemukan` )
-})
+//pertemuan 2
+app.get('/', (req, res) => {
+    res.send(`Hello Express!`)
+});
 
-app.get('/mahasiswa/:nim/semester', (req, res) => {
-    const nim = req.params.nim;
-    const semester = req.params.semester;
+app.get('/',(req, res)=> {
+    res.send('Get-Home Page')
+});
 
-    res.send(`mahasiswa dengan nim: ${nim} semester :${semester} ditemukan` )
-})
+//pertemuan 3
+app.get('/maba',(req, res)=>{
 
-app.get('/get-mahasiswa-by-nim',(req, res)=>{
+     res.json(maba)
+});
+
+
+app.get('/get-maba-by-nim', (req, res) =>{
     const nim = req.query.nim;
 
-    res.send(`mahaiswa dengan nim : ${nim} ditemukan`)
-})
+    res.send(`Mahasiswa dengan nim : ${nim} ditemukan`)
+});
 
-app.get('/nilai-persemester', (req, res)=>{
+app.get('/nilai-persemester',(req, res) => {
     const nim = req.query.nim;
     const semester = req.query.semester;
 
-    res.send(`mahasiswa dengan nim : ${nim}  semester : ${semester} ditemukan`)
+    res.send(`Nilai maba nim : ${nim} semester ${semester} ditemukan`)
 })
 
-app.use(express.json());
+// req.params dengan 1 parameter
+app.get('/maba/:nim', (req, res) => {
+    const nim = req.params.nim;
 
-app.post('/mahasiswa', (req,res) =>{
-    const nim = req.body.nim;
-    const nama = req.body.nama;
-    const angkatan = req.body.angkatan;
-    const prodi = req.body.prodi;
-
-    const msg = { status:'sukses',
-                    data:{"nim" : nim, "nama" : nama, "angkatan" : angkatan, "prodi" : prodi}};
-
-    res.send(msg);
+    res.send(`Mahasiswa dengan nim : ${nim} ditemukan` )
 });
-// app.get('/',(req,res) =>{
-//     res.send('belajar express!')
-// });
 
-// app.post('/',(req,res) =>{
-//     res.send('Post')
-// });
+// req.params dengan 2 parameter
+app.get('/nilai/:nim/:semester',(req, res)=> {
+    const nim = req.params.nim;
+    const semester = req.params.semester;
 
-// app.put('/',(req,res) =>{
-//     res.send('Update')
-// });
+    res.send(`Nilai maba nim : ${nim} semester ${semester} ditemukan`)
+});
 
-// app.delete('/',(req,res) =>{
-//     res.send('menghapus data ')
-// });
+//pertemuan 2
+app.post('/', (req, res) =>{
+    res.send(`Post Data`)
+});
 
+app.put('/', (req, res) =>{
+    res.send(`update data success`) 
+});
 
-app.listen(port,()=>{
+app.delete('/', (req, res) =>{
+    res.send(`Hapus Data Berhasil`)
+});
+
+app.listen(port, ()=> {
     console.log(`server berjalan dengan localhost:${port}`)
-})
+});
