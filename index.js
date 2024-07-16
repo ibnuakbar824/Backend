@@ -1,65 +1,27 @@
 const express = require('express');
 const app = express();
-const port = 5000;
+const port = 1000;
+const routerMaba = require('./routers/maba')
 
+app.use(express.json());
+app.use(express.urlencoded({ extended : true }))
+app.use(routerMaba)
 
-//pertemuan 2
-app.get('/', (req, res) => {
-    res.send(`Hello Express!`)
+const mongoose = require('mongoose')
+require('dotenv').config();
+mongoose.connect(process.env.DATABASE_URL,
+    {
+        useNewUrlParser : true,
+        useUnifiedTopology : true
+    }
+);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error : "));
+db.once("open", function () {
+    console.log("Sukses Terkoneksi dengan mongodb");
 });
 
-app.get('/',(req, res)=> {
-    res.send('Get-Home Page')
-});
-
-//pertemuan 3
-app.get('/maba',(req, res)=>{
-
-     res.json(maba)
-});
-
-
-app.get('/get-maba-by-nim', (req, res) =>{
-    const nim = req.query.nim;
-
-    res.send(`Mahasiswa dengan nim : ${nim} ditemukan`)
-});
-
-app.get('/nilai-persemester',(req, res) => {
-    const nim = req.query.nim;
-    const semester = req.query.semester;
-
-    res.send(`Nilai maba nim : ${nim} semester ${semester} ditemukan`)
-})
-
-// req.params dengan 1 parameter
-app.get('/maba/:nim', (req, res) => {
-    const nim = req.params.nim;
-
-    res.send(`Mahasiswa dengan nim : ${nim} ditemukan` )
-});
-
-// req.params dengan 2 parameter
-app.get('/nilai/:nim/:semester',(req, res)=> {
-    const nim = req.params.nim;
-    const semester = req.params.semester;
-
-    res.send(`Nilai maba nim : ${nim} semester ${semester} ditemukan`)
-});
-
-//pertemuan 2
-app.post('/', (req, res) =>{
-    res.send(`Post Data`)
-});
-
-app.put('/', (req, res) =>{
-    res.send(`update data success`) 
-});
-
-app.delete('/', (req, res) =>{
-    res.send(`Hapus Data Berhasil`)
-});
-
-app.listen(port, ()=> {
-    console.log(`server berjalan dengan localhost:${port}`)
+app.listen(port, () => {
+    console.log(`server berjalan dengan localhost:${port}`);
 });
